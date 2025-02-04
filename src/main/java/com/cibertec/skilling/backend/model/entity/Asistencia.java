@@ -1,4 +1,6 @@
-package com.cibertec.skilling.backend.model;
+package com.cibertec.skilling.backend.model.entity;
+
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,25 +23,24 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Resultado")
-@Entity(name = "Resultado")
-public class Resultado {
+@Table(name = "Asistencia")
+@Entity(name = "Asistencia")
+public class Asistencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "puntaje", nullable = false)
-    private Integer puntaje;
-
-    @ManyToOne
-    @JoinColumn(name = "examen_id", nullable = false)
-    private Examen examen;
-
-    @ManyToOne
-    @JoinColumn(name = "tarea_id", nullable = false)
-    private Tarea tarea;
+    @Column(name = "fecha", nullable = false)
+    private LocalDateTime fecha;
+    
+    @Column(name = "presente", columnDefinition = "CHAR(1)" ,nullable = false)
+    private String presente;
 
     @ManyToOne
     @JoinColumn(name = "estudiante_id", nullable = false)
     private Estudiante estudiante;
+
+    @ManyToOne
+    @JoinColumn(name = "leccion_id", nullable = false)
+    private Leccion leccion;
 }

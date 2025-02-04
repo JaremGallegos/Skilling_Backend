@@ -1,15 +1,16 @@
-package com.cibertec.skilling.backend.model;
+package com.cibertec.skilling.backend.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.cibertec.skilling.backend.model.Sexo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,12 +24,11 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Estudiante")
-@Entity(name = "Estudiante")
-public class Estudiante {
+@Entity(name = "Profesor")
+public class Profesor {
     @Id
     private String id;
-
+    
     @Column(name = "usuario", unique = true, nullable = false)
     private String usuario;
 
@@ -61,11 +61,9 @@ public class Estudiante {
     @Column(name = "fechaNacimiento", nullable = false)
     private LocalDateTime fechaNacimiento;
 
-    @ManyToOne
-    @JoinColumn(name = "grado_id", nullable = false)
-    private Grado grado;
+    @OneToMany(mappedBy = "profesor")
+    private List<Leccion> lecciones;
 
-    @ManyToOne
-    @JoinColumn(name = "clase_id", nullable = false)
-    private Clase clase;
+    @OneToMany(mappedBy = "profesor")
+    private List<Clase> clases;
 }

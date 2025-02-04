@@ -1,7 +1,9 @@
-package com.cibertec.skilling.backend.model;
+package com.cibertec.skilling.backend.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.cibertec.skilling.backend.model.Dia;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

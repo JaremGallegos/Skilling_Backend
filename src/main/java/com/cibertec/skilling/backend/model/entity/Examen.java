@@ -1,4 +1,4 @@
-package com.cibertec.skilling.backend.model;
+package com.cibertec.skilling.backend.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;

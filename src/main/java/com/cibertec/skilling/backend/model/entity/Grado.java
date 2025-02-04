@@ -1,4 +1,4 @@
-package com.cibertec.skilling.backend.model;
+package com.cibertec.skilling.backend.model.entity;
 
 import java.util.List;
 
@@ -22,19 +22,19 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Materia")
-@Entity(name = "Materia")
-public class Materia {
+@Table(name = "Grado")
+@Entity(name = "Grado")
+public class Grado {   
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
 
-    @Column(name = "nombre", unique = true, nullable = false)
-    private String nombre;
+    @Column(name = "nivel", unique = true, nullable = false)
+    private Integer nivel;
 
-    @OneToMany(mappedBy = "materia")
-    private List<Leccion> lecciones;
+    @OneToMany(mappedBy = "grado")
+    private List<Estudiante> estudiantes;
 
-    //@OneToMany(mappedBy = "materia")
-    //private List<Profesor> profesores;
+    @OneToMany(mappedBy = "grado")
+    private List<Clase> clases;
 }

@@ -1,7 +1,6 @@
-package com.cibertec.skilling.backend.model;
+package com.cibertec.skilling.backend.model.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,9 +23,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Tarea")
-@Entity(name = "Tarea")
-public class Tarea {
+@Table(name = "Evento")
+@Entity(name = "Evento")
+public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -35,16 +33,16 @@ public class Tarea {
     @Column(name = "titulo", nullable = false)
     private String titulo;
 
-    @Column(name = "fechaInicio", nullable = false)
-    private LocalDateTime fechaInicio;
+    @Column(name = "descripcion", nullable = false)
+    private String descripcion;
 
-    @Column(name = "fechaEntrega", nullable = false)
-    private LocalDateTime fechaEntrega;
+    @Column(name = "horaInicio", nullable = false)
+    private LocalDateTime horaInicio;
+
+    @Column(name = "horaFin", nullable = false)
+    private LocalDateTime horaFin; 
 
     @ManyToOne
-    @JoinColumn(name = "leccion_id", nullable = false)
-    private Leccion leccion;
-
-    @OneToMany(mappedBy = "tarea")
-    private List<Resultado> resultados;
+    @JoinColumn(name = "clase_id", nullable = false)
+    private Clase clase;
 }

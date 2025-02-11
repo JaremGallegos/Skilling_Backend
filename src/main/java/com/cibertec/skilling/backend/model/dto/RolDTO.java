@@ -1,5 +1,5 @@
 package com.cibertec.skilling.backend.model.dto;
 
-public class AdministradorDTO {
+public class RolDTO {
 
 }

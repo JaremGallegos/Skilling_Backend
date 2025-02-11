@@ -1,5 +1,7 @@
 package com.cibertec.skilling.backend.model.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,38 +10,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "Resultado")
-@Entity(name = "Resultado")
+@Table(name = "resultado")
+@Entity(name = "resultado")
 public class Resultado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "puntaje", nullable = false)
-    private Integer puntaje;
+    @Column(name = "puntaje", nullable = false, precision = 5, scale = 2)
+    private BigDecimal puntaje;
 
-    @ManyToOne
-    @JoinColumn(name = "examen_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Examen_id", nullable = false)
     private Examen examen;
 
-    @ManyToOne
-    @JoinColumn(name = "tarea_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Tarea_id", nullable = false)
     private Tarea tarea;
 
-    @ManyToOne
-    @JoinColumn(name = "estudiante_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Estudiante_id", nullable = false)
     private Estudiante estudiante;
 }

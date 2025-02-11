@@ -12,21 +12,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "Examen")
-@Entity(name = "Examen")
+@Table(name = "examen")
+@Entity(name = "examen")
 public class Examen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +33,8 @@ public class Examen {
     @Column(name = "horaFin", nullable = false)
     private LocalDateTime horaFin;
 
-    @ManyToOne
-    @JoinColumn(name = "leccion_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Leccion_id", referencedColumnName = "id", nullable = false)
     private Leccion leccion;
 
     @OneToMany(mappedBy = "examen")

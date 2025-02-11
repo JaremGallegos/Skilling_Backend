@@ -11,16 +11,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Table(name = "administrador")
-@Entity(name = "administrador")
-public class Administrador {
+@Table(name = "usuario")
+@Entity(name = "usuario")
+public class Usuario {
     @Id
     private String id;
 
-    @Column(length = 100, nullable = false)
-    private String usuario;
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String clave;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "Usuario_id", referencedColumnName = "id", nullable = false)
-    private Usuario usuarioRef;
+    @JoinColumn(name = "Rol_id", referencedColumnName = "id", nullable = false)
+    private Rol rol;
 }

@@ -10,21 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "Asistencia")
-@Entity(name = "Asistencia")
+@Table(name = "asistencia")
+@Entity(name = "asistencia")
 public class Asistencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +25,14 @@ public class Asistencia {
     @Column(name = "fecha", nullable = false)
     private LocalDateTime fecha;
     
-    @Column(name = "presente", columnDefinition = "CHAR(1)" ,nullable = false)
+    @Column(name = "presente", length = 1, nullable = false)
     private String presente;
 
-    @ManyToOne
-    @JoinColumn(name = "estudiante_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Estudiante_id", referencedColumnName = "id", nullable = false)
     private Estudiante estudiante;
 
-    @ManyToOne
-    @JoinColumn(name = "leccion_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Leccion_id", referencedColumnName = "id", nullable = false)
     private Leccion leccion;
 }

@@ -11,21 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "Clase")
-@Entity(name = "Clase")
+@Table(name = "clase")
+@Entity(name = "clase")
 public class Clase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +29,12 @@ public class Clase {
     @Column(name = "capacidad", nullable = false)
     private Integer capacidad;
 
-    @ManyToOne
-    @JoinColumn(name = "grado_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Grado_id", referencedColumnName = "id", nullable = false)
     private Grado grado;
 
-    @ManyToOne
-    @JoinColumn(name = "profesor_id",  nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Profesor_id", referencedColumnName = "id", nullable = false)
     private Profesor profesor;
 
     @OneToMany(mappedBy = "clase")

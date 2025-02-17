@@ -10,5 +10,5 @@ public interface TareaService {
     TareaResponseDTO findTareaById(Integer id);
     TareaResponseDTO createTarea(TareaRequestDTO requestDTO);
     TareaResponseDTO updateTarea(Integer id, TareaRequestDTO requestDTO);
-    void deleteTarea(Integer id);///
+    void deleteTarea(Integer id);
 }

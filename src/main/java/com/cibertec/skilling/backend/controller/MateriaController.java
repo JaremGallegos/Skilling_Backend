@@ -1,5 +1,7 @@
 package com.cibertec.skilling.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,12 @@ public class MateriaController {
 
     public MateriaController(MateriaService materiaService) {
         this.materiaService = materiaService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MateriaResponseDTO>> getAllMaterias() {
+        List<MateriaResponseDTO> materias = materiaService.findAllMaterias();
+        return ResponseEntity.ok(materias);
     }
 
     @GetMapping("/{id}")

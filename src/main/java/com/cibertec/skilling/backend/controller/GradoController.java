@@ -1,5 +1,7 @@
 package com.cibertec.skilling.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,12 @@ public class GradoController {
     
     public GradoController(GradoService gradoService) {
         this.gradoService = gradoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GradoResponseDTO>> getAllGrado() {
+        List<GradoResponseDTO> grados = gradoService.findAllGrados();
+        return ResponseEntity.ok(grados);
     }
 
     @GetMapping("/{id}")

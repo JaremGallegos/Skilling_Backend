@@ -1,5 +1,7 @@
 package com.cibertec.skilling.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,12 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponseDTO>> getAllUsuarios() {
+        List<UsuarioResponseDTO> usuarios = usuarioService.findAllUsuarios();
+        return ResponseEntity.ok(usuarios);
+    }
+    
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> getUsuarioById(@PathVariable("id") String id) {
         UsuarioResponseDTO usuario = usuarioService.findUsuarioById(id);

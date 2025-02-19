@@ -2,6 +2,8 @@ package com.cibertec.skilling.backend.model.dto.request;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -39,6 +41,7 @@ public class ProfesorRequestDTO {
     private String sexo;
 
     @NotNull(message = "El campo fechaNacimiento no puede ser nulo")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaNacimiento;
 
     @NotBlank(message = "El campo usuario_id no puede ser vacío o nulo")

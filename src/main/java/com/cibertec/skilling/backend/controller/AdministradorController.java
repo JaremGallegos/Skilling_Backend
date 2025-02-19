@@ -1,5 +1,7 @@
 package com.cibertec.skilling.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,12 @@ public class AdministradorController {
     
     public AdministradorController(AdministradorService administradorService) {
         this.administradorService = administradorService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AdministradorResponseDTO>> getAllAdministradores() {
+        List<AdministradorResponseDTO> administradores = administradorService.findAllAdministradores();
+        return ResponseEntity.ok(administradores);
     }
 
     @GetMapping("/{id}")

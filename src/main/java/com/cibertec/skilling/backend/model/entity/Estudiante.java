@@ -2,12 +2,15 @@ package com.cibertec.skilling.backend.model.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.cibertec.skilling.backend.model.Sexo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
@@ -23,6 +26,9 @@ import lombok.Setter;
 @Entity(name = "estudiante")
 public class Estudiante {
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
     @Column(name = "usuario", unique = true, nullable = false, length = 100)

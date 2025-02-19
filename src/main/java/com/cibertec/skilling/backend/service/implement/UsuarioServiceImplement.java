@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.UsuarioNotFoundException;
@@ -14,6 +13,7 @@ import com.cibertec.skilling.backend.model.dto.response.UsuarioResponseDTO;
 import com.cibertec.skilling.backend.model.entity.Usuario;
 import com.cibertec.skilling.backend.repository.UsuarioRepository;
 import com.cibertec.skilling.backend.service.UsuarioService;
+import com.cibertec.skilling.backend.utils.AppConfig;
 
 @Service
 public class UsuarioServiceImplement implements UsuarioService {
@@ -25,9 +25,9 @@ public class UsuarioServiceImplement implements UsuarioService {
     private final UsuarioMapper usuarioMapper;
 
     @Autowired
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final AppConfig passwordEncoder;
 
-    public UsuarioServiceImplement(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, BCryptPasswordEncoder passwordEncoder) {
+    public UsuarioServiceImplement(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, AppConfig passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.passwordEncoder = passwordEncoder;
@@ -51,7 +51,6 @@ public class UsuarioServiceImplement implements UsuarioService {
     @Override
     public UsuarioResponseDTO createUsuario(UsuarioRequestDTO requestDTO) {
         Usuario usuario = usuarioMapper.toEntity(requestDTO);
-        usuario.setClave(passwordEncoder.encode(usuario.getClave()));
         Usuario savedUsuario = usuarioRepository.save(usuario);
         return usuarioMapper.toResponseDTO(savedUsuario);
     }
@@ -61,7 +60,7 @@ public class UsuarioServiceImplement implements UsuarioService {
         Usuario existingUsuario = usuarioRepository.findById(id)
             .orElseThrow(() -> new UsuarioNotFoundException("[Error 404] Usuario no encontrado con id: " + id));
         existingUsuario.setEmail(requestDTO.getEmail());
-        existingUsuario.setClave(passwordEncoder.encode(requestDTO.getClave()));
+        existingUsuario.setClave(passwordEncoder.passwordEncoder().encode(requestDTO.getClave()));
         Usuario updatedUsuario = usuarioRepository.save(existingUsuario);
         return usuarioMapper.toResponseDTO(updatedUsuario);
     }

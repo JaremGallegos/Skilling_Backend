@@ -14,5 +14,5 @@ public class UsuarioResponseDTO {
     private String email;
     private String clave;
 
-    private RolResponseDTO rol;
+    private RolResponseDTO rolId;
 }

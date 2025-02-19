@@ -11,6 +11,6 @@ import com.cibertec.skilling.backend.model.entity.Clase;
 public interface ClaseRepository extends JpaRepository<Clase, Integer> {
     List<Clase> findByNombreContainingIgnoreCase(String nombreFragment);
     List<Clase> findByGradoId(Integer gradoId);
-    List<Clase> finbByProfesorId(String profesorId);
+    List<Clase> findByProfesorId(String profesorId);
     List<Clase> findByCapacidadGreaterThanEqual(Integer capacidad);
 }

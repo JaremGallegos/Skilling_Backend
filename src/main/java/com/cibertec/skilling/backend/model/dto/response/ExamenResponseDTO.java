@@ -18,7 +18,7 @@ public class ExamenResponseDTO {
     private LocalDateTime horaInicio;
     private LocalDateTime horaFin;
 
-    private LeccionResponseDTO leccion;
+    private LeccionResponseDTO leccionId;
 
     // Relaciones a colecciones: Anidar DTOs
     private List<ResultadoResponseDTO> resultados;

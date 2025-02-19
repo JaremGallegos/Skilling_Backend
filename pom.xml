@@ -86,7 +86,7 @@
 					<target>17</target>
 					<annotationProcessorPaths>
 						<path>
-							<groupId>org.projectlombook</groupId>
+							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</path>
 						<path>

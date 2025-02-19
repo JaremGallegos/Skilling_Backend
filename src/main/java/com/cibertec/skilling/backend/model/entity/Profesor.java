@@ -21,7 +21,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 @Entity(name = "profesor")
 @Table(name = "profesor")
 public class Profesor {

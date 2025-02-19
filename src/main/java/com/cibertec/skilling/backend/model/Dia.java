@@ -3,7 +3,7 @@ package com.cibertec.skilling.backend.model;
 public enum Dia {
     LUNES("LUNES"), 
     MARTES("MARTES"), 
-    MIERCOLES("MIÃRCOLES"), 
+    MIERCOLES("MIÃRCOLES"), 
     JUEVES("JUEVES"), 
     VIERNES("VIERNES");
 

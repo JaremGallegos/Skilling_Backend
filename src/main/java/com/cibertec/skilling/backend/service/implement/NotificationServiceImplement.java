@@ -11,6 +11,16 @@ public class NotificationServiceImplement {
     @Autowired
     private JavaMailSender mailSender;
 
+    /**
+     * Envía un correo electrónico simple a un destinatario especificado.
+     *
+     * Este método crea y envía un correo electrónico utilizando {@link SimpleMailMessage}.
+     * Requiere un servidor de correo configurado en la aplicación.
+     *
+     * @param to Dirección de correo electrónico del destinatario.
+     * @param subject Asunto del correo.
+     * @param body Contenido del mensaje en formato de texto plano.
+     */
     public void enviarEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);

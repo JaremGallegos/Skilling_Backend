@@ -68,8 +68,20 @@ public class EventoController {
         return ResponseEntity.noContent().build();
     }
 
+
+
     /**
+     * Envia una notificacion por correo electronico
      * 
+     * Este endpoint recibe una solicitud con los datos de la notificacion
+     * y envia un correo electronicao al destinatario especificado.
+     * 
+     * @param request Objeto {@link NotificationRequestDTO} que contiene la informacion de la notificacion:
+     *              - {@code email}: Direccion de correo del destinatario.
+     *              - {@code subject}: Asunto del correo.
+     *              - {@code body}: Cuerpo del mensaje.
+     * ResponseEntity con un mensaje de confirmacion
+     * - {@code 200 OK} si el correo se envia correctamente.
      */
     @PostMapping("/enviar")
     public ResponseEntity<String> enviarNotificacion(@RequestBody NotificationRequestDTO request) {

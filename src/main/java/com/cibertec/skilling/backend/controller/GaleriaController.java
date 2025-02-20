@@ -65,16 +65,25 @@ public class GaleriaController {
     }
 
     /**
-     * Endpoint para subir imagen y crear una Galeria, utilizando MultipartFile
-     * Se presente que al utilizar el endpoint el usuario puede subir la imagen y agregar
-     * parametros de texto
+     * Sube un archivo multimedia a la galeria y almacena su informacion.
+     * 
+     * Este endpoint permite a los usuarios subir un archivo multimedia, como una imagen o video,
+     * junto con metodos asociados. El servicio procesa y almacena el archivo.
+     * 
+     * @param file Archivo multimedia a subir. Debe enviarse como un parametro de tipo {@code multipart/form-data}.
+     * @param requestDTO Objeto {@link GaleriaRequestDTO} que contiene los metadatos de la galeria,
+     * como el título, descripción, categoría, etc.
+     * 
+     * @return ResponseEntity con un objeto {@link GaleriaResponseDTO} que representa el archivo subido.
+     *              - {@code 201 CREATED} si la carga y almacenamiento son exitosos.
+     *              - {@code 500 INTERNAL_SERVER_ERROR} si ocurre un error durante el proceso.
      */
-    @PostMapping("/upload")
+    @PostMapping("/subir")
     public ResponseEntity<GaleriaResponseDTO> uploadGaleria(
             @RequestParam MultipartFile file,
             @ModelAttribute GaleriaRequestDTO requestDTO) {
         try {
-            GaleriaResponseDTO created = galeriaService.uploadGaleria(file, requestDTO);
+            GaleriaResponseDTO created = galeriaService.subirGaleria(file, requestDTO);
             return new ResponseEntity<>(created, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

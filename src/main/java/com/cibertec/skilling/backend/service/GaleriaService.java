@@ -14,5 +14,6 @@ public interface GaleriaService {
     GaleriaResponseDTO updateGaleria(String id, GaleriaRequestDTO requestDTO);
     void deleteGaleria(String id);
     
-    GaleriaResponseDTO uploadGaleria(MultipartFile file, GaleriaRequestDTO requestDTO) throws Exception;
+
+    GaleriaResponseDTO subirGaleria(MultipartFile file, GaleriaRequestDTO requestDTO) throws Exception;
 }

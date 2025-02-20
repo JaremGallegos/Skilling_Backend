@@ -72,8 +72,12 @@ public class GaleriaServiceImplement implements GaleriaService {
         galeriaRepository.delete(galeria);
     }
 
+
+    /**
+     * Subir galeria de imagenes
+     */
     @Override
-    public GaleriaResponseDTO uploadGaleria(MultipartFile file, GaleriaRequestDTO requestDTO) throws Exception {
+    public GaleriaResponseDTO subirGaleria(MultipartFile file, GaleriaRequestDTO requestDTO) throws Exception {
         try {
             byte[] imageBytes = file.getBytes();
             GaleriaRequestDTO updatedDTO = GaleriaRequestDTO.builder()

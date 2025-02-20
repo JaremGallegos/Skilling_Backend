@@ -61,14 +61,26 @@ public class LibroController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // Endpoint para carga masiva de libros desde CSV
-    @PostMapping("/upload")
+
+
+    /**
+     * Carga un archivo CSV con información de libros y procesa su contenido
+     * 
+     * Este endpoint permite a los usuarios dubir un archivo CSV que contiene informacion de libros.
+     * Luego, el servicio procesa el archivo y devuelve una lista de los libros cargados.
+     * 
+     * @param file Archivo CSV que contiene los datos de los libros. Debe enviarse como un parametro de tipo {@code multipart/form-data}
+     * @return ResponseEntity con una lista de objetos {@link LibroResponseDTO} que representan los libros cargados.
+     *              - {@code 200 OK} si la carga y procesamiento del archivo son exitosos.
+     *              - {@code 500 INTERNAL_SERVER_ERROR} si ocurre un error durante el proceso.
+     */
+    @PostMapping("/cargar")
     public ResponseEntity<List<LibroResponseDTO>> uploadLibros(@RequestParam("file") MultipartFile file) {
         try {
             List<LibroResponseDTO> result = libroService.uploadLibrosFromCSV(file);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            // Manejo de error básico
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

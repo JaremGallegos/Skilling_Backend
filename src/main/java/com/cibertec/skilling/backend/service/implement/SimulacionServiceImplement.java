@@ -75,27 +75,49 @@ public class SimulacionServiceImplement implements SimulacionService {
     }
 
     /**
-     * Procesa de forma paralela una lista de 100 registros JSON de simulacion
+     * Procesa una lista de simulaciones de forma concurrente utilizando hilos.
+     *
+     * <p>Este método recibe una lista de solicitudes de simulación y las procesa en paralelo
+     * usando {@link CompletableFuture} y un executor personalizado para mejorar la eficiencia.</p>
+     *
+     * @param dtos Lista de objetos {@link SimulacionRequestDTO} que contienen los datos de las simulaciones a procesar.
+     * @return Lista de objetos {@link SimulacionResponseDTO} con los resultados de las simulaciones procesadas.
      */
     @Override
     public List<SimulacionResponseDTO> procesarSimulacionesConThreads(List<SimulacionRequestDTO> dtos) {
         List<CompletableFuture<SimulacionResponseDTO>> futures = dtos.stream()
-                .map(dto -> CompletableFuture.supplyAsync(() -> createSimulacion(dto), executor))
+                .map(dto -> CompletableFuture.supplyAsync(() -> {
+                    String threadName = Thread.currentThread().getName();
+                    System.out.println("Ejecutando en el hilo: " + threadName);
+                    return createSimulacion(dto);
+                }, executor))
                 .collect(Collectors.toList());
-        return futures.stream()
+    
+        List<SimulacionResponseDTO> resultados = futures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
+    
+        System.out.println("Cargado con éxito");
+        return resultados;
     }
 
     /**
-     * Descarga todos los registros de la entidad
+     * Procesa una lista de simulaciones de forma concurrente utilizando hilos.
+     *
+     * Este método recibe una lista de solicitudes de simulación y las procesa en paralelo
+     * usando {@link CompletableFuture} y un executor personalizado para mejorar la eficiencia.
+     *
+     * @param dtos Lista de objetos {@link SimulacionRequestDTO} que contienen los datos de las simulaciones a procesar.
+     * @return Lista de objetos {@link SimulacionResponseDTO} con los resultados de las simulaciones procesadas.
      */
     @Override
     public Resource descargarCsvFile() throws Exception {
+        String threadName = Thread.currentThread().getName();
+        System.out.println("Generando CSV en el hilo: " + threadName);
+
         List<Simulacion> simulaciones = simulacionRepository.findAll();
         StringBuilder sb = new StringBuilder();
         
-        // Escribir la cabecera
         sb.append("id,nombre,descripcion,estado,tiempoInicio,tiempoFin\n");
         for (Simulacion s : simulaciones) {
             sb.append(s.getId()).append(",")
@@ -106,10 +128,8 @@ public class SimulacionServiceImplement implements SimulacionService {
               .append(s.getTiempoFin()).append("\n");
         }
 
-        // Convertir el CSV en un arreglo de Bytes
         byte[] csvBytes = sb.toString().getBytes(StandardCharsets.UTF_8);
-        
-        // Retornar el CSV como recurso
+        System.out.println("Archivo CSV generado con éxito.");
         return new ByteArrayResource(csvBytes);
     }
 

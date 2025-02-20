@@ -48,7 +48,7 @@ public class LibroServiceImplement implements LibroService {
     @Override
     public LibroResponseDTO findLibroById(String id) {
         Libro libro = libroRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Libro not found with id " + id));
+            .orElseThrow(() -> new RuntimeException("Libro no encontrado con id " + id));
         return libroMapper.toResponseDTO(libro);
     }
 
@@ -62,7 +62,7 @@ public class LibroServiceImplement implements LibroService {
     @Override
     public LibroResponseDTO updateLibro(String id, LibroRequestDTO requestDTO) {
         Libro libro = libroRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Libro not found with id " + id));
+            .orElseThrow(() -> new RuntimeException("Libro no encontrad con id " + id));
         libro.setTitulo(requestDTO.getTitulo());
         libro.setAutor(requestDTO.getAutor());
         libro.setIsbn(requestDTO.getIsbn());
@@ -75,13 +75,24 @@ public class LibroServiceImplement implements LibroService {
     @Override
     public void deleteLibro(String id) {
         Libro libro = libroRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Libro not found with id " + id));
+            .orElseThrow(() -> new RuntimeException("Libro no encontrado con id " + id));
         libroRepository.delete(libro);
     }
 
+
+    /**
+     * Procesa un archivo CSV y carga los libros de manera asincrónica.
+     *
+     * Este método lee un archivo CSV, extrae los datos de los libros y los procesa de manera concurrente
+     * utilizando {@link CompletableFuture} para mejorar la eficiencia
+     *
+     * @param file Archivo CSV que contiene los datos de los libros. Debe estar codificado en UTF-8.
+     * @return Lista de objetos {@link LibroResponseDTO} representando los libros cargados.
+     * @throws Exception Si ocurre un error durante la lectura o el procesamiento del archivo.
+     */
     @Override
     public List<LibroResponseDTO> uploadLibrosFromCSV(MultipartFile file) throws Exception {
-        List<CompletableFuture<LibroResponseDTO>> futures = new ArrayList<>();
+        List<CompletableFuture<LibroResponseDTO>> libros = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
             String line;
             boolean isHeader = true;
@@ -102,10 +113,10 @@ public class LibroServiceImplement implements LibroService {
                         .resumen(fields[4].trim())
                         .build();
                 CompletableFuture<LibroResponseDTO> future = CompletableFuture.supplyAsync(() -> createLibro(dto), executor);
-                futures.add(future);
+                libros.add(future);
             }
         }
-        return futures.stream()
+        return libros.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
     }

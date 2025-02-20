@@ -63,33 +63,41 @@ public class SimulacionController {
     }
 
     /**
-     *  Endpoint para procesar 100 registros JSON de simulacion de forma optima y rapida
-     * */
+     * Procesa un lote de registros JSON de simulacion de manera optima y rapida.
+     * 
+     * Este endpoint recibe una lista de objetos de simulacion en formato JSON y los procesa
+     * de forma concurrente utilizando hilos para mejorar el rendimiento.
+     * 
+     * @param simulaciones Lista de objetos {@link SimulacionesRequestDTO} que contiene los datos de simulación a procesar.
+     * @return ResponseEntity con un mensaje indicando que el procesamiento ha comenzado.
+     *              - {@code 200 OK} si el procesamiento se inicia correctamente.
+     */
     @PostMapping("/procesar")
-    public ResponseEntity<List<SimulacionResponseDTO>> processSimulaciones(@RequestBody List<SimulacionRequestDTO> simulaciones) {
-        // Se espera recibir 100 registros en el body
-        List<SimulacionResponseDTO> processed = simulacionService.procesarSimulacionesConThreads(simulaciones);
-        return new ResponseEntity<>(processed, HttpStatus.OK);
+    public ResponseEntity<String> processSimulaciones(@RequestBody List<SimulacionRequestDTO> simulaciones) {
+        simulacionService.procesarSimulacionesConThreads(simulaciones);
+        return new ResponseEntity<>("Procesamiento iniciado. Ver consola para detalles.", HttpStatus.OK);
     }
 
     /**
-     * Endpoint para descargar todos los registros de una tabla
+     * Descargar todos los registros de la tabla en un archivo CSV.
+     * 
+     * Este endpoint permite a los usuarios descargar un archivo CSV
+     * que contiene todos los registros de la tabla relacionada con las simulaciones
+     * 
+     * @return ResponseEntity que contiene el archivo CSV como un recursos descargable.
+     *              - {@code 200 OK} si el archivo se genera correctamente.
+     *              - {@code 500 INTERNAL_SERVER_ERROR} si ocurre un error durante la generacion del archivo.
      */
     @GetMapping("/descargar")
-    public ResponseEntity<Resource> descargarCsvArchivo() {
+    public ResponseEntity<Resource> downloadCsvFile() {
         try {
-            Resource resource = simulacionService.descargarCsvFile();
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=simulaciones.csv");
-
+            Resource file = simulacionService.descargarCsvFile();
             return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(resource.contentLength())
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(resource);
-
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=simulaciones.csv")
+                    .contentType(MediaType.parseMediaType("text/csv"))
+                    .body(file);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

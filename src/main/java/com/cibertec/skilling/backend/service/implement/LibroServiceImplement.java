@@ -86,7 +86,7 @@ public class LibroServiceImplement implements LibroService {
             String line;
             boolean isHeader = true;
             while ((line = br.readLine()) != null) {
-                if (isHeader) { // Saltar el header
+                if (isHeader) {
                     isHeader = false;
                     continue;
                 }

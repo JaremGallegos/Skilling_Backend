@@ -71,7 +71,6 @@ public class GaleriaController {
             GaleriaResponseDTO created = galeriaService.uploadGaleria(file, requestDTO);
             return new ResponseEntity<>(created, HttpStatus.CREATED);
         } catch (Exception e) {
-            // Manejo básico de errores
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

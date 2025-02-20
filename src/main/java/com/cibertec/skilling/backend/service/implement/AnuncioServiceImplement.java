@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.AnuncioNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.AnuncioService;
 
 @Service
 public class AnuncioServiceImplement implements AnuncioService {
-    @Autowired
-    private final AnuncioRepository anuncioRepository;
 
-    @Autowired
+    private final AnuncioRepository anuncioRepository;
     private final AnuncioMapper anuncioMapper;
 
     public AnuncioServiceImplement(AnuncioRepository anuncioRepository, AnuncioMapper anuncioMapper) {

@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.ExamenNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.ExamenService;
 
 @Service
 public class ExamenServiceImplement implements ExamenService {
-    @Autowired
-    private final ExamenRepository examenRepository;
 
-    @Autowired
+    private final ExamenRepository examenRepository;
     private final ExamenMapper examenMapper;
 
     public ExamenServiceImplement(ExamenRepository examenRepository, ExamenMapper examenMapper){

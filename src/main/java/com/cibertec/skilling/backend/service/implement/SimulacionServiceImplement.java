@@ -1,12 +1,14 @@
 package com.cibertec.skilling.backend.service.implement;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +25,8 @@ public class SimulacionServiceImplement implements SimulacionService {
 
     private final SimulacionRepository simulacionRepository;
     private final SimulacionMapper simulacionMapper;
-
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    @Autowired
     public SimulacionServiceImplement(SimulacionRepository simulacionRepository, SimulacionMapper simulacionMapper) {
         this.simulacionRepository = simulacionRepository;
         this.simulacionMapper = simulacionMapper;
@@ -74,14 +74,43 @@ public class SimulacionServiceImplement implements SimulacionService {
         simulacionRepository.delete(simulacion);
     }
 
+    /**
+     * Procesa de forma paralela una lista de 100 registros JSON de simulacion
+     */
     @Override
-    public List<SimulacionResponseDTO> processSimulacionesConThreads(List<SimulacionRequestDTO> dtos) {
+    public List<SimulacionResponseDTO> procesarSimulacionesConThreads(List<SimulacionRequestDTO> dtos) {
         List<CompletableFuture<SimulacionResponseDTO>> futures = dtos.stream()
                 .map(dto -> CompletableFuture.supplyAsync(() -> createSimulacion(dto), executor))
                 .collect(Collectors.toList());
         return futures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Descarga todos los registros de la entidad
+     */
+    @Override
+    public Resource descargarCsvFile() throws Exception {
+        List<Simulacion> simulaciones = simulacionRepository.findAll();
+        StringBuilder sb = new StringBuilder();
+        
+        // Escribir la cabecera
+        sb.append("id,nombre,descripcion,estado,tiempoInicio,tiempoFin\n");
+        for (Simulacion s : simulaciones) {
+            sb.append(s.getId()).append(",")
+              .append(s.getNombre()).append(",")
+              .append(s.getDescripcion()).append(",")
+              .append(s.getEstado()).append(",")
+              .append(s.getTiempoInicio()).append(",")
+              .append(s.getTiempoFin()).append("\n");
+        }
+
+        // Convertir el CSV en un arreglo de Bytes
+        byte[] csvBytes = sb.toString().getBytes(StandardCharsets.UTF_8);
+        
+        // Retornar el CSV como recurso
+        return new ByteArrayResource(csvBytes);
     }
 
 }

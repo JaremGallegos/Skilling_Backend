@@ -1,6 +1,5 @@
 package com.cibertec.skilling.backend.service.implement;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,10 +13,7 @@ import com.cibertec.skilling.backend.repository.UsuarioRepository;
 @Service
 public class AuthServiceImplement {
 
-    @Autowired
     private UsuarioRepository usuarioRepository;
-    
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {

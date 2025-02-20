@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.AsistenciaNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.AsistenciaService;
 
 @Service
 public class AsistenciaServiceImplement implements AsistenciaService {
-    @Autowired
-    private final AsistenciaRepository asistenciaRepository;    
 
-    @Autowired
+    private final AsistenciaRepository asistenciaRepository;    
     private final AsistenciaMapper asistenciaMapper;
 
     public AsistenciaServiceImplement(AsistenciaRepository asistenciaRepository, AsistenciaMapper asistenciaMapper) {

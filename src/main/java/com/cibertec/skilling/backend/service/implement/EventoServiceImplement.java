@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.EventoNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.EventoService;
 
 @Service
 public class EventoServiceImplement implements EventoService {
-    @Autowired
-    private final EventoRepository eventoRepository;
 
-    @Autowired
+    private final EventoRepository eventoRepository;
     private final EventoMapper eventoMapper;
 
     public EventoServiceImplement(EventoRepository eventoRepository, EventoMapper eventoMapper) {

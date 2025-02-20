@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.ClaseNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.ClaseService;
 
 @Service
 public class ClaseServiceImplement implements ClaseService {
-    @Autowired
-    private final ClaseRepository claseRepository;
 
-    @Autowired
+    private final ClaseRepository claseRepository;
     private final ClaseMapper claseMapper;
 
     public ClaseServiceImplement(ClaseRepository claseRepository, ClaseMapper claseMapper) {

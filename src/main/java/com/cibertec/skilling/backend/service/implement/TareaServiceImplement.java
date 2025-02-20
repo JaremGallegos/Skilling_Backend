@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.TareaNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.TareaService;
 
 @Service
 public class TareaServiceImplement implements TareaService {
-    @Autowired
-    private final TareaRepository tareaRepository;
 
-    @Autowired
+    private final TareaRepository tareaRepository;
     private final TareaMapper tareaMapper;
 
     public TareaServiceImplement(TareaRepository tareaRepository, TareaMapper tareaMapper) {

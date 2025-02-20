@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.MateriaNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.MateriaService;
 
 @Service
 public class MateriaServiceImplement implements MateriaService {
-    @Autowired
-    private final MateriaRepository materiaRepository;
 
-    @Autowired
+    private final MateriaRepository materiaRepository;
     private final MateriaMapper materiaMapper;
 
     public MateriaServiceImplement(MateriaRepository materiaRepository, MateriaMapper materiaMapper) {

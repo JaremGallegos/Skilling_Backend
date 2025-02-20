@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,11 +24,12 @@ import com.cibertec.skilling.backend.service.GaleriaService;
 
 @RestController
 @RequestMapping("/api/galerias")
+@CrossOrigin({"*"})
 public class GaleriaController {
-
+    
+    @Autowired
     private final GaleriaService galeriaService;
 
-    @Autowired
     public GaleriaController(GaleriaService galeriaService) {
         this.galeriaService = galeriaService;
     }
@@ -62,7 +64,11 @@ public class GaleriaController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // Endpoint para subir imagen y crear una Galeria, utilizando MultipartFile
+    /**
+     * Endpoint para subir imagen y crear una Galeria, utilizando MultipartFile
+     * Se presente que al utilizar el endpoint el usuario puede subir la imagen y agregar
+     * parametros de texto
+     */
     @PostMapping("/upload")
     public ResponseEntity<GaleriaResponseDTO> uploadGaleria(
             @RequestParam MultipartFile file,
@@ -71,7 +77,7 @@ public class GaleriaController {
             GaleriaResponseDTO created = galeriaService.uploadGaleria(file, requestDTO);
             return new ResponseEntity<>(created, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

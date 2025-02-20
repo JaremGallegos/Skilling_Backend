@@ -2,9 +2,12 @@ package com.cibertec.skilling.backend.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +23,11 @@ import com.cibertec.skilling.backend.service.SimulacionService;
 
 @RestController
 @RequestMapping("/api/simulaciones")
+@CrossOrigin({"*"})
 public class SimulacionController {
 
     private final SimulacionService simulacionService;
 
-    @Autowired
     public SimulacionController(SimulacionService simulacionService) {
         this.simulacionService = simulacionService;
     }
@@ -59,10 +62,34 @@ public class SimulacionController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // Endpoint para procesar múltiples simulaciones en paralelo
-    @PostMapping("/process")
+    /**
+     *  Endpoint para procesar 100 registros JSON de simulacion de forma optima y rapida
+     * */
+    @PostMapping("/procesar")
     public ResponseEntity<List<SimulacionResponseDTO>> processSimulaciones(@RequestBody List<SimulacionRequestDTO> simulaciones) {
-        List<SimulacionResponseDTO> processed = simulacionService.processSimulacionesConThreads(simulaciones);
+        // Se espera recibir 100 registros en el body
+        List<SimulacionResponseDTO> processed = simulacionService.procesarSimulacionesConThreads(simulaciones);
         return new ResponseEntity<>(processed, HttpStatus.OK);
+    }
+
+    /**
+     * Endpoint para descargar todos los registros de una tabla
+     */
+    @GetMapping("/descargar")
+    public ResponseEntity<Resource> descargarCsvArchivo() {
+        try {
+            Resource resource = simulacionService.descargarCsvFile();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=simulaciones.csv");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(resource.contentLength())
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(resource);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

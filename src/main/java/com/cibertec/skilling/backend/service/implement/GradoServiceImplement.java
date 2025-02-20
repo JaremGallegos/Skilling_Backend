@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.GradoNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.GradoService;
 
 @Service
 public class GradoServiceImplement implements GradoService {
-    @Autowired
-    private final GradoRepository gradoRepository;
 
-    @Autowired
+    private final GradoRepository gradoRepository;
     private final GradoMapper gradoMapper;
 
     public GradoServiceImplement(GradoRepository gradoRepository, GradoMapper gradoMapper) {

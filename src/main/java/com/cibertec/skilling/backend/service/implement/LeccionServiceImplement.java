@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.LeccionNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.LeccionService;
 
 @Service
 public class LeccionServiceImplement implements LeccionService {
-    @Autowired
+
     private final LeccionRepository leccionRepository;
-    
-    @Autowired
     private final LeccionMapper leccionMapper;
 
     public LeccionServiceImplement(LeccionRepository leccionRepository, LeccionMapper leccionMapper) {

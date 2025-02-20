@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.ResultadoNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.ResultadoService;
 
 @Service
 public class ResultadoServiceImplement implements ResultadoService {
-    @Autowired
+
     private final ResultadoRepository resultadoRepository;
-    
-    @Autowired
     private final ResultadoMapper resultadoMapper;
 
     public ResultadoServiceImplement(ResultadoRepository resultadoRepository, ResultadoMapper resultadoMapper) {

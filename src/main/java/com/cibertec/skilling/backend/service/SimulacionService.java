@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cibertec.skilling.backend.model.dto.request.SimulacionRequestDTO;
 import com.cibertec.skilling.backend.model.dto.response.SimulacionResponseDTO;
+import org.springframework.core.io.Resource;
 
 public interface SimulacionService {
     List<SimulacionResponseDTO> findAllSimulaciones();
@@ -12,5 +13,6 @@ public interface SimulacionService {
     SimulacionResponseDTO updateSimulacion(String id, SimulacionRequestDTO requestDTO);
     void deleteSimulacion(String id);
     
-    List<SimulacionResponseDTO> processSimulacionesConThreads(List<SimulacionRequestDTO> dtos);
+    List<SimulacionResponseDTO> procesarSimulacionesConThreads(List<SimulacionRequestDTO> dtos);
+    Resource descargarCsvFile() throws Exception;
 }

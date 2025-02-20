@@ -2,9 +2,9 @@ package com.cibertec.skilling.backend.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,11 +22,11 @@ import com.cibertec.skilling.backend.service.LibroService;
 
 @RestController
 @RequestMapping("/api/libros")
+@CrossOrigin({"*"})
 public class LibroController {
 
     private final LibroService libroService;
 
-    @Autowired
     public LibroController(LibroService libroService) {
         this.libroService = libroService;
     }
@@ -69,7 +69,7 @@ public class LibroController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             // Manejo de error básico
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

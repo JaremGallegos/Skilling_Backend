@@ -3,7 +3,6 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.ProfesorNotFoundException;
@@ -16,10 +15,8 @@ import com.cibertec.skilling.backend.service.ProfesorService;
 
 @Service
 public class ProfesorServiceImplement implements ProfesorService {
-    @Autowired
+
     private final ProfesorRepository profesorRepository;
-    
-    @Autowired
     private final ProfesorMapper profesorMapper;
 
     public ProfesorServiceImplement(ProfesorRepository profesorRepository, ProfesorMapper profesorMapper) {

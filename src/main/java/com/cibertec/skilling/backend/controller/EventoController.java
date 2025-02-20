@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cibertec.skilling.backend.model.dto.request.EventoRequestDTO;
+import com.cibertec.skilling.backend.model.dto.request.NotificationRequestDTO;
 import com.cibertec.skilling.backend.model.dto.response.EventoResponseDTO;
 import com.cibertec.skilling.backend.service.EventoService;
+import com.cibertec.skilling.backend.service.implement.NotificationServiceImplement;
 
 @RestController
 @RequestMapping("/api/eventos")
@@ -27,8 +29,12 @@ public class EventoController {
     @Autowired
     private final EventoService eventoService;
 
-    public EventoController(EventoService eventoService) {
+    @Autowired
+    private final NotificationServiceImplement notificacionService;
+
+    public EventoController(EventoService eventoService, NotificationServiceImplement notificacionService) {
         this.eventoService = eventoService;
+        this.notificacionService = notificacionService;
     }
 
     @GetMapping
@@ -60,5 +66,14 @@ public class EventoController {
     public ResponseEntity<Void> deleteEvento(@PathVariable("id") Integer id) {
         eventoService.deleteEvento(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 
+     */
+    @PostMapping("/enviar")
+    public ResponseEntity<String> enviarNotificacion(@RequestBody NotificationRequestDTO request) {
+        notificacionService.enviarEmail(request.getEmail(), request.getSubject(), request.getBody());
+        return ResponseEntity.ok("Notificacion enviado correctamente");
     }
 }

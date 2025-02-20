@@ -1,6 +1,6 @@
 package com.cibertec.skilling.backend.model.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -61,10 +61,10 @@ public class Profesor {
 
     @Builder.Default
     @Column(name = "fechaCreacion", nullable = false, updatable = false)
-    private LocalDateTime fechaCreacion = LocalDateTime.now();
+    private LocalDate fechaCreacion = LocalDate.now();
 
     @Column(name = "fechaNacimiento", nullable = false)
-    private LocalDateTime fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
     @OneToMany(mappedBy = "profesor")
     private List<Leccion> lecciones;

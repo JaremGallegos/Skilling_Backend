@@ -1,8 +1,10 @@
 package com.cibertec.skilling.backend.model.dto.request;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+import com.cibertec.skilling.backend.utils.ByteArrayDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,14 +37,15 @@ public class ProfesorRequestDTO {
     private String direccion;
 
     @NotNull(message = "El campo imagen no puede ser nulo")
+    @JsonDeserialize(using = ByteArrayDeserializer.class)
     private byte[] imagen;
 
     @NotBlank(message = "El campo sexo no puede ser vacío o nulo")
     private String sexo;
 
     @NotNull(message = "El campo fechaNacimiento no puede ser nulo")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime fechaNacimiento;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaNacimiento;
 
     @NotBlank(message = "El campo usuario_id no puede ser vacío o nulo")
     private String usuarioId;

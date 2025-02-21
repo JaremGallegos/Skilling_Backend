@@ -94,23 +94,23 @@ public class LibroServiceImplement implements LibroService {
     public List<LibroResponseDTO> uploadLibrosFromCSV(MultipartFile file) throws Exception {
         List<CompletableFuture<LibroResponseDTO>> libros = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
-            String line;
-            boolean isHeader = true;
-            while ((line = br.readLine()) != null) {
-                if (isHeader) {
-                    isHeader = false;
+            String linea;
+            boolean encabezado = true;
+            while ((linea = br.readLine()) != null) {
+                if (encabezado) {
+                    encabezado = false;
                     continue;
                 }
-                String[] fields = line.split(",");
-                if (fields.length < 5) {
+                String[] campos = linea.split(",");
+                if (campos.length < 5) {
                     continue;
                 }
                 LibroRequestDTO dto = LibroRequestDTO.builder()
-                        .titulo(fields[0].trim())
-                        .autor(fields[1].trim())
-                        .isbn(fields[2].trim())
-                        .fechaPublicacion(parseLocalDateTime(fields[3].trim()))
-                        .resumen(fields[4].trim())
+                        .titulo(campos[0].trim())
+                        .autor(campos[1].trim())
+                        .isbn(campos[2].trim())
+                        .fechaPublicacion(parseLocalDateTime(campos[3].trim()))
+                        .resumen(campos[4].trim())
                         .build();
                 CompletableFuture<LibroResponseDTO> future = CompletableFuture.supplyAsync(() -> createLibro(dto), executor);
                 libros.add(future);
@@ -121,9 +121,9 @@ public class LibroServiceImplement implements LibroService {
                 .collect(Collectors.toList());
     }
 
-    private LocalDateTime parseLocalDateTime(String dateStr) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(dateStr, formatter);
+    private LocalDateTime parseLocalDateTime(String fechaStr) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.parse(fechaStr, formato);
     }
 
 }

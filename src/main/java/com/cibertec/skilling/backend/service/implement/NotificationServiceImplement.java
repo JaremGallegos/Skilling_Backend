@@ -22,10 +22,10 @@ public class NotificationServiceImplement {
      * @param body Contenido del mensaje en formato de texto plano.
      */
     public void enviarEmail(String to, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-        mailSender.send(message);
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(to);
+        mensaje.setSubject(subject);
+        mensaje.setText(body);
+        mailSender.send(mensaje);
     }
 }

@@ -77,8 +77,8 @@ public class SimulacionServiceImplement implements SimulacionService {
     /**
      * Procesa una lista de simulaciones de forma concurrente utilizando hilos.
      *
-     * <p>Este método recibe una lista de solicitudes de simulación y las procesa en paralelo
-     * usando {@link CompletableFuture} y un executor personalizado para mejorar la eficiencia.</p>
+     * Este método recibe una lista de solicitudes de simulación y las procesa en paralelo
+     * usando {@link CompletableFuture} y un executor personalizado para mejorar la eficiencia.
      *
      * @param dtos Lista de objetos {@link SimulacionRequestDTO} que contienen los datos de las simulaciones a procesar.
      * @return Lista de objetos {@link SimulacionResponseDTO} con los resultados de las simulaciones procesadas.
@@ -87,8 +87,8 @@ public class SimulacionServiceImplement implements SimulacionService {
     public List<SimulacionResponseDTO> procesarSimulacionesConThreads(List<SimulacionRequestDTO> dtos) {
         List<CompletableFuture<SimulacionResponseDTO>> futures = dtos.stream()
                 .map(dto -> CompletableFuture.supplyAsync(() -> {
-                    String threadName = Thread.currentThread().getName();
-                    System.out.println("Ejecutando en el hilo: " + threadName);
+                    String threadNombre = Thread.currentThread().getName();
+                    System.out.println("Ejecutando en el hilo: " + threadNombre);
                     return createSimulacion(dto);
                 }, executor))
                 .collect(Collectors.toList());
@@ -112,8 +112,8 @@ public class SimulacionServiceImplement implements SimulacionService {
      */
     @Override
     public Resource descargarCsvFile() throws Exception {
-        String threadName = Thread.currentThread().getName();
-        System.out.println("Generando CSV en el hilo: " + threadName);
+        String threadNombre = Thread.currentThread().getName();
+        System.out.println("Generando CSV en el hilo: " + threadNombre);
 
         List<Simulacion> simulaciones = simulacionRepository.findAll();
         StringBuilder sb = new StringBuilder();

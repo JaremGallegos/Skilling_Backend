@@ -1,6 +1,9 @@
 package com.cibertec.skilling.backend.service.implement;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -11,6 +14,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cibertec.skilling.backend.mapper.SimulacionMapper;
 import com.cibertec.skilling.backend.model.dto.request.SimulacionRequestDTO;
@@ -18,6 +22,7 @@ import com.cibertec.skilling.backend.model.dto.response.SimulacionResponseDTO;
 import com.cibertec.skilling.backend.model.entity.Simulacion;
 import com.cibertec.skilling.backend.repository.SimulacionRepository;
 import com.cibertec.skilling.backend.service.SimulacionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @Transactional
@@ -98,6 +103,39 @@ public class SimulacionServiceImplement implements SimulacionService {
                 .collect(Collectors.toList());
     
         System.out.println("Cargado con éxito");
+        return resultados;
+    }
+
+    /**
+     * Procesa un archivo JSONL que contiene registros de simulación y los registra en la base de datos de forma concurrente.
+     *
+     * Este método lee un archivo JSONL en el cual cada línea es un registro en formato JSON que representa
+     * un objeto {@link SimulacionRequestDTO}. Utiliza {@link CompletableFuture} y un executor personalizado para
+     * procesar cada registro de manera asíncrona, lo que mejora la eficiencia en el procesamiento de 100 registros.
+     *
+     * @param file Archivo JSONL que contiene los registros de simulación. Debe estar codificado en UTF-8.
+     * @return Lista de objetos {@link SimulacionResponseDTO} con los resultados de las simulaciones registradas.
+     * @throws Exception Si ocurre un error durante la lectura o el procesamiento del archivo.
+     */
+    @Override
+    public List<SimulacionResponseDTO> uploadSimulacionesFromJsonl(MultipartFile file) throws Exception {
+        List<CompletableFuture<SimulacionResponseDTO>> futures = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                SimulacionRequestDTO dto = objectMapper.readValue(line, SimulacionRequestDTO.class);
+                CompletableFuture<SimulacionResponseDTO> future = CompletableFuture.supplyAsync(() -> createSimulacion(dto), executor);
+                futures.add(future);
+            }
+        }
+        
+        List<SimulacionResponseDTO> resultados = futures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
+        
+        System.out.println("Registro de simulaciones desde JSONL completado con éxito.");
         return resultados;
     }
 

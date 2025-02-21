@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cibertec.skilling.backend.model.dto.request.SimulacionRequestDTO;
 import com.cibertec.skilling.backend.model.dto.response.SimulacionResponseDTO;
@@ -76,6 +78,28 @@ public class SimulacionController {
     public ResponseEntity<String> processSimulaciones(@RequestBody List<SimulacionRequestDTO> simulaciones) {
         simulacionService.procesarSimulacionesConThreads(simulaciones);
         return new ResponseEntity<>("Procesamiento iniciado. Ver consola para detalles.", HttpStatus.OK);
+    }
+
+    /**
+     * Carga simulaciones desde un archivo JSONL y las registra en la base de datos de forma concurrente.
+     *
+     * Este endpoint permite subir un archivo JSONL en el cual cada línea representa un registro JSON.
+     * Cada registro se deserializa a un objeto {@code SimulacionRequestDTO} y se procesa de forma asíncrona
+     * utilizando hilos, aprovechando un executor personalizado para mejorar el rendimiento.
+     *
+     * @param file Archivo JSONL con los registros de simulación. Debe enviarse como un parámetro de tipo {@code multipart/form-data}.
+     * @return ResponseEntity que contiene una lista de objetos {@link SimulacionResponseDTO} con el resultado del registro,
+     *         o un estado {@code 500 INTERNAL_SERVER_ERROR} en caso de error.
+     */
+    @PostMapping("/jsonl/procesar")
+    public ResponseEntity<List<SimulacionResponseDTO>> uploadSimulacionesFromJsonl(@RequestParam("file") MultipartFile file) {
+        try {
+            List<SimulacionResponseDTO> resultados = simulacionService.uploadSimulacionesFromJsonl(file);
+            return new ResponseEntity<>(resultados, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

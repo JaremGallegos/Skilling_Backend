@@ -3,6 +3,7 @@ package com.cibertec.skilling.backend.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cibertec.skilling.backend.exceptions.UsuarioNotFoundException;
@@ -16,7 +17,7 @@ import com.cibertec.skilling.backend.utils.AppConfig;
 
 @Service
 public class UsuarioServiceImplement implements UsuarioService {
-    
+    @Autowired
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     private final AppConfig passwordEncoder;

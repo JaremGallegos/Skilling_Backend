@@ -13,8 +13,13 @@ import com.cibertec.skilling.backend.repository.UsuarioRepository;
 @Service
 public class AuthServiceImplement {
 
-    private UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthServiceImplement(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {
         Usuario usuario = usuarioRepository.findByEmail(loginRequest.getEmail())

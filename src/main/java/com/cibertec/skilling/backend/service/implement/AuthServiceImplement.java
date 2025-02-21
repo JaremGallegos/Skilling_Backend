@@ -29,7 +29,7 @@ public class AuthServiceImplement {
             throw new BadCredentialsException("Credenciales incorrectas");
         } else {
             return LoginResponseDTO.builder()
-                .message("Login Exitoso")
+                .message("1")
                 .build();
         }
     }

@@ -26,8 +26,8 @@ public class SecurityConfig {
                     "/",
                     "/index.html",
                     "/swagger-ui/**",
-                    "/v3/api-docs/**",
                     "/api/auth/login",
+                    "/v3/api-docs/**",
                     "/register",
                     "/api/roles",
                     "/api/usuarios",
@@ -43,7 +43,8 @@ public class SecurityConfig {
                 .logoutRequestMatcher(new AntPathRequestMatcher("logout", "GET"))
                 .logoutSuccessUrl("/login")
                 .permitAll()
-            );
+            )
+            .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 

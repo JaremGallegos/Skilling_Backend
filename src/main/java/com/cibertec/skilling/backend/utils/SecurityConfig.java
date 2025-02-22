@@ -27,13 +27,16 @@ public class SecurityConfig {
                 "/api/simulaciones/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, 
                 "/api/libros/**",
-                "/api/simulaciones/**").permitAll()
+                "/api/simulaciones/**",
+                "/api/auth/login/**").permitAll()
                 .requestMatchers(HttpMethod.POST, 
                 "/api/libros/**",
-                "/api/simulaciones/**").permitAll()
+                "/api/simulaciones/**",
+                "/api/auth/login/**").permitAll()
                 .requestMatchers(HttpMethod.GET, 
                 "/api/libros/**",
-                "/api/simulaciones/**").permitAll()
+                "/api/simulaciones/**",
+                "/api/auth/login/**").permitAll()
                 .requestMatchers(
                     "/",
                     "/index.html",

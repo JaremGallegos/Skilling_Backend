@@ -22,6 +22,18 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
+                .requestMatchers(HttpMethod.DELETE, 
+                "/api/libros/**",
+                "/api/simulaciones/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, 
+                "/api/libros/**",
+                "/api/simulaciones/**").permitAll()
+                .requestMatchers(HttpMethod.POST, 
+                "/api/libros/**",
+                "/api/simulaciones/**").permitAll()
+                .requestMatchers(HttpMethod.GET, 
+                "/api/libros/**",
+                "/api/simulaciones/**").permitAll()
                 .requestMatchers(
                     "/",
                     "/index.html",
@@ -30,6 +42,11 @@ public class SecurityConfig {
                     "/v3/api-docs/**",
                     "/register",
                     "/api/roles",
+                    "/api/eventos",
+                    "/api/libros",
+                    "/api/simulaciones",
+                    "/api/eventos/enviar",
+                    "/api/libros/cargar",
                     "/api/usuarios",
                     "/**/*.js",
                     "/**/*.ts",
@@ -43,8 +60,8 @@ public class SecurityConfig {
                 .logoutRequestMatcher(new AntPathRequestMatcher("logout", "GET"))
                 .logoutSuccessUrl("/login")
                 .permitAll()
-            )
-            .httpBasic(Customizer.withDefaults());
+            );
+            //.httpBasic(Customizer.withDefaults());
         return http.build();
     }
 

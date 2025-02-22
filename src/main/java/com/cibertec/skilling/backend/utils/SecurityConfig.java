@@ -24,19 +24,27 @@ public class SecurityConfig {
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers(HttpMethod.DELETE, 
                 "/api/libros/**",
-                "/api/simulaciones/**").permitAll()
+                "/api/simulaciones/**",
+                "/api/profesores/**",
+                "/api/estudiantes/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, 
                 "/api/libros/**",
                 "/api/simulaciones/**",
-                "/api/auth/login/**").permitAll()
+                "/api/auth/login/**",
+                "/api/profesores/**",
+                "/api/estudiantes/**").permitAll()
                 .requestMatchers(HttpMethod.POST, 
                 "/api/libros/**",
                 "/api/simulaciones/**",
-                "/api/auth/login/**").permitAll()
+                "/api/auth/login/**",
+                "/api/profesores/**",
+                "/api/estudiantes/**").permitAll()
                 .requestMatchers(HttpMethod.GET, 
                 "/api/libros/**",
                 "/api/simulaciones/**",
-                "/api/auth/login/**").permitAll()
+                "/api/auth/login/**",
+                "/api/profesores/**",
+                "/api/estudiantes/**").permitAll()
                 .requestMatchers(
                     "/",
                     "/index.html",
@@ -47,7 +55,13 @@ public class SecurityConfig {
                     "/api/roles",
                     "/api/eventos",
                     "/api/libros",
+                    "/api/administradores",
+                    "/api/anuncios",
+                    "/api/asistencias",
+                    "/api/clases",
                     "/api/simulaciones",
+                    "/api/estudiantes",
+                    "/api/profesores",
                     "/api/eventos/enviar",
                     "/api/libros/cargar",
                     "/api/usuarios",

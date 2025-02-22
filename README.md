@@ -1,3 +1,7 @@
+## Uso de Templates para Pruebas de Carga
+
+En la sección de templates, se pueden utilizar archivos CSV para realizar pruebas de carga y evaluar el rendimiento del servicio de la entidad LIBROS.
+
 ## Configuración de SMTP en Spring Boot
 
 Para habilitar el envío de correos electrónicos en tu aplicación Spring Boot, configura el servicio SMTP en tu archivo `application.properties` o `application.yml`.
